@@ -15,10 +15,6 @@ VoiceFlow is a powerful, lightweight desktop application that provides real-time
 - **Lightweight**: Minimal resource usage with efficient threading
 - **Cross-platform**: Works on Windows, macOS, and Linux
 
-## 🖼️ Screenshots
-
-*Caption window showing real-time transcription overlay*
-
 ## 🚀 Quick Start
 
 ### Prerequisites
