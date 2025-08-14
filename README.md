@@ -1,220 +1,212 @@
-# 🎙️ VoiceFlow
+# LiveScript 🎯
 
-**Real-time live captioning for your desktop audio**
+A real-time audio transcription application that provides live captions for your system's audio output. Perfect for accessibility, language learning, meetings, or any situation where you need visual representation of spoken content.
 
-VoiceFlow is a powerful, lightweight desktop application that provides real-time captions for any audio playing on your computer. Whether you're watching videos, attending online meetings, or listening to podcasts, VoiceFlow captures your system audio and displays live captions in a sleek, draggable overlay window.
+![LiveScript Demo](https://via.placeholder.com/800x400/2b2b2b/ffffff?text=LiveScript+Demo+Screenshot)
 
 ## ✨ Features
 
-- **Real-time Speech Recognition**: Converts system audio to text in real-time using Vosk
-- **System Audio Capture**: Captures audio directly from your speakers/headphones
-- **Draggable Overlay**: Semi-transparent, always-on-top window that you can move anywhere
-- **Smart Line Management**: Automatically manages caption flow with intelligent line breaks
-- **Pause Detection**: Detects speech pauses and starts new caption lines automatically
-- **Partial Results**: Shows real-time transcription progress with partial results
-- **Lightweight**: Minimal resource usage with efficient threading
-- **Cross-platform**: Works on Windows, macOS, and Linux
+### 🎤 **Real-Time Transcription**
+- Live speech-to-text using Vosk offline speech recognition
+- Audio loopback capture from system speakers
+- Multi-threaded processing for smooth performance
+- Configurable audio buffer sizes for optimal accuracy/speed balance
 
-## 🚀 Quick Start
+### 🌍 **Multi-Language Support**
+- **50+ languages and dialects** supported including:
+  - English (multiple variants)
+  - Chinese, Russian, French, German, Spanish
+  - Portuguese, Arabic, Hindi, Japanese, Korean
+  - And many more regional variants
+- Automatic model downloading and management
+- Easy language switching through settings
 
-### Prerequisites
+### 🎨 **Customizable Appearance**
+- **Caption Styling**: Custom colors, fonts, and sizes
+- **Window Properties**: Adjustable width, height, opacity, and padding
+- **Theme Support**: Dark/Light mode compatibility
+- **Overlay Positioning**: Draggable caption window
+- Real-time preview of all visual changes
 
-- Python 3.7 or higher
-- Audio output device (speakers/headphones)
+### ⚙️ **Advanced Configuration**
+- Audio processing parameters (block size, delay thresholds)
+- Searchable dropdown menus for easy navigation
+- Settings persistence with JSON configuration
+- First-run setup wizard with guided tour
 
-### Installation
+### 🖥️ **User Experience**
+- Modern CustomTkinter interface
+- Right-click context menu for quick access
+- Tooltips and helpful descriptions
+- Responsive, scrollable settings panel
+- One-click model installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/voiceflow.git
-   cd voiceflow
-   ```
+## 📋 Requirements
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+### System Requirements
+- **Operating System**: Windows 10/11, macOS 10.14+, or Linux
+- **Python**: 3.7 or higher
+- **RAM**: Minimum 2GB (4GB recommended for large models)
+- **Storage**: 500MB - 5GB depending on language models
+- **Audio**: System audio output (speakers/headphones)
 
-3. **Download Vosk Model**
-   
-   Download a Vosk model for speech recognition:
-   ```bash
-   # For English (Small model - ~40MB)
-   wget https://alphacephei.com/vosk/models/vosk-model-small-en-us-0.15.zip
-   unzip vosk-model-small-en-us-0.15.zip
-   ```
-   
-   Or download manually from [Vosk Models](https://alphacephei.com/vosk/models) and extract to your project directory.
+### Python Dependencies
+```
+tkinter (usually included with Python)
+customtkinter>=5.0.0
+soundcard>=0.4.0
+vosk>=0.3.45
+numpy>=1.19.0
+requests>=2.25.0
+```
 
-4. **Update model path**
-   
-   Edit `EnhancedApp.py` and update the `MODEL_PATH` variable:
-   ```python
-   MODEL_PATH = "vosk-model-small-en-us-0.15"  # Your model directory name
-   ```
+## 🚀 Installation
 
-5. **Run VoiceFlow**
-   ```bash
-   python EnhancedApp.py
-   ```
+### Method 1: Clone Repository
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/livescript.git
+cd livescript
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the application
+python SubtitlesAppV1.01.py
+```
+
+### Method 2: Direct Download
+1. Download the latest release from [Releases](https://github.com/yourusername/livescript/releases)
+2. Extract the archive
+3. Install dependencies: `pip install -r requirements.txt`
+4. Run: `python SubtitlesAppV1.01.py`
+
+### Method 3: Requirements.txt
+Create a `requirements.txt` file:
+```
+customtkinter>=5.0.0
+soundcard>=0.4.0
+vosk>=0.3.45
+numpy>=1.19.0
+requests>=2.25.0
+```
+
+## 🎮 Usage
+
+### First Run
+1. **Launch the application** - The About window will appear with usage instructions
+2. **Right-click** the caption overlay to access settings
+3. **Select your language** - The app will automatically download the required model
+4. **Customize appearance** to your preferences
+5. **Start speaking or play audio** - Captions will appear in real-time!
+
+### Basic Controls
+- **Move Window**: Left-click and drag the caption bar
+- **Access Settings**: Right-click anywhere on the caption window
+- **Quick Restart**: Use the restart option when changing languages or models
+
+### Settings Overview
+
+#### 🎨 **Caption Appearance**
+- **Colors**: Subtitle and background colors with color picker
+- **Typography**: Font family, size, and styling options
+- **Layout**: Window dimensions, padding, and opacity controls
+- **Positioning**: Draggable overlay with size customization
+
+#### 🔊 **Audio & Language**
+- **Language Models**: 50+ supported languages with automatic downloading
+- **Audio Processing**: Block size and delay threshold adjustments
+- **Model Management**: Automatic installation and status monitoring
+
+#### ⚡ **Performance Tuning**
+- **Block Size**: Lower = faster response, Higher = better accuracy
+  - `1000-2000`: Fast response (good for real-time chat)
+  - `3000-4000`: Balanced (recommended for most users)  
+  - `5000-8000`: High accuracy (good for detailed transcription)
+- **Delay Threshold**: How long to wait before clearing captions during silence
 
 ## 🛠️ Configuration
 
-### Model Selection
-
-VoiceFlow supports various Vosk models with different sizes and languages:
-
-| Model | Size | Language | Accuracy |
-|-------|------|----------|----------|
-| vosk-model-small-en-us-0.15 | ~40MB | English (US) | Good |
-| vosk-model-en-us-0.22 | ~1.8GB | English (US) | Excellent |
-| vosk-model-small-en-in-0.4 | ~40MB | English (India) | Good |
-
-### Adjustable Parameters
-
-Edit these variables in `EnhancedApp.py`:
-
-```python
-SAMPLE_RATE = 16000          # Audio sample rate (Hz)
-BLOCK_SIZE = 2000           # Audio processing block size
-DELAY_THRESHOLD = 1.0       # Pause detection threshold (seconds)
+### Settings File
+Settings are automatically saved to `settings.json`:
+```json
+{
+    "subtitle_color": "#FFFFFF",
+    "background_color": "#000000", 
+    "background_opacity": 0.75,
+    "subtitle_size": 16,
+    "subtitle_font": "Arial",
+    "language": "English",
+    "block_size": 3000,
+    "window_width": 1200,
+    "window_height": 70,
+    "delay_threshold": 3.0
+}
 ```
 
-### Window Customization
-
-Modify the `CaptionWindow` class for appearance:
-- Font size and family
-- Window transparency (`alpha` value)
-- Text wrapping width
-- Window dimensions and position
-
-## 🎛️ Usage
-
-### Basic Operation
-
-1. **Launch**: Run `python EnhancedApp.py`
-2. **Position**: Drag the caption window to your preferred location
-3. **Listen**: Play any audio on your computer - VoiceFlow will automatically caption it
-4. **Close**: Close the window or press Ctrl+C in the terminal
-
-### Window Controls
-
-- **Drag**: Click and drag the caption text to move the window
-- **Always on Top**: Window stays above all other applications
-- **Semi-transparent**: Background is semi-transparent for minimal distraction
-
-### Audio Sources
-
-VoiceFlow captures audio from:
-- System audio/speakers
-- Application audio (videos, music, calls)
-- Loopback audio from your default output device
+### Model Storage
+- Language models are downloaded to the application directory
+- Models range from 30MB (small) to 5GB (large) depending on language
+- Models are reusable and only need to be downloaded once
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
 
-**"Another app is using the audio device in exclusive mode"**
-- Close applications that might have exclusive audio access
-- Try restarting VoiceFlow
-- Check Windows audio settings for exclusive mode
+#### "Could not capture audio"
+- **Solution**: Check that your system has audio output devices
+- **Windows**: Ensure "Stereo Mix" or similar loopback device is enabled
+- **macOS**: Grant microphone permissions in System Preferences
+- **Linux**: Install and configure PulseAudio or ALSA
 
-**"Failed to load model"**
-- Verify the model path in `MODEL_PATH` variable
-- Ensure the model directory exists and contains required files
-- Download the model again if corrupted
+#### "Model not found" error
+- **Solution**: Open Settings → Select your language → Wait for automatic download
+- **Manual**: Download models from [Vosk Models](https://alphacephei.com/vosk/models)
 
-**No audio captured**
-- Check your default audio output device
-- Ensure audio is actually playing
-- Try running as administrator (Windows)
-- Check system audio permissions (macOS/Linux)
+#### Poor transcription accuracy
+- **Solution**: 
+  - Increase block size in settings (try 4000-6000)
+  - Ensure clear audio source
+  - Try a larger language model variant
+  - Check system audio levels
 
-**Poor recognition accuracy**
-- Use a larger, more accurate Vosk model
-- Ensure clear audio without background noise
-- Check that the correct language model is being used
+#### Application won't start
+- **Solution**:
+  - Verify Python version (3.7+)
+  - Install missing dependencies: `pip install -r requirements.txt`
+  - Check for port conflicts or permission issues
 
-### Platform-Specific Notes
-
-**Windows:**
-- May require running as administrator for system audio capture
-- Ensure Windows audio drivers are up to date
-
-**macOS:**
-- Grant microphone permissions in System Preferences
-- May need additional audio routing software
-
-**Linux:**
-- Install ALSA or PulseAudio development packages
-- Check audio device permissions
-
-## 🏗️ Architecture
-
-VoiceFlow uses a multi-threaded architecture:
-
-```
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   Audio Thread  │───▶│   Audio Queue    │───▶│  Speech Thread  │
-│ (Capture Audio) │    │                  │    │ (Process Audio) │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-                                                         │
-                                                         ▼
-┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
-│   GUI Thread    │◀───│  Caption Queue   │◀───│  Recognition    │
-│ (Display Text)  │    │                  │    │     Engine      │
-└─────────────────┘    └──────────────────┘    └─────────────────┘
-```
-
-## 📦 Dependencies
-
-- **tkinter**: GUI framework (included with Python)
-- **soundcard**: Audio capture from system output
-- **vosk**: Speech recognition engine
-- **numpy**: Audio data processing
-- **threading**: Multi-threaded processing
-- **queue**: Thread-safe data exchange
+### Performance Optimization
+- **For speed**: Use smaller models and lower block sizes
+- **For accuracy**: Use larger models and higher block sizes  
+- **For battery life**: Reduce processing frequency and use smaller models
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+We welcome contributions! Here's how you can help:
 
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Make your changes**
-4. **Add tests** if applicable
-5. **Commit**: `git commit -m 'Add amazing feature'`
-6. **Push**: `git push origin feature/amazing-feature`
-7. **Open a Pull Request**
+### Ways to Contribute
+- 🐛 **Bug Reports**: Report issues via [GitHub Issues](https://github.com/yourusername/livescript/issues)
+- 💡 **Feature Requests**: Suggest new features or improvements
+- 🌍 **Language Support**: Help test and improve language models
+- 📖 **Documentation**: Improve guides, README, or code comments
+- 🔧 **Code**: Submit pull requests for bug fixes or new features
 
 ### Development Setup
-
 ```bash
-# Clone your fork
-git clone https://github.com/yourusername/voiceflow.git
-cd voiceflow
-
-# Install development dependencies
+git clone https://github.com/yourusername/livescript.git
+cd livescript
 pip install -r requirements.txt
-pip install pytest black flake8  # For testing and formatting
-
-# Run tests
-pytest
-
-# Format code
-black .
+# Make your changes
+python SubtitlesAppV1.01.py  # Test your changes
 ```
 
-## 📋 Roadmap
-
-- [ ] **Multiple Language Support**: Support for more Vosk language models
-- [ ] **Audio Source Selection**: Choose specific applications or devices
-- [ ] **Caption History**: Save and review caption history
-- [ ] **Customizable Themes**: Multiple UI themes and color schemes
-- [ ] **Keyboard Shortcuts**: Global hotkeys for control
-- [ ] **Export Functionality**: Export captions to text/SRT files
-- [ ] **Cloud Recognition**: Integration with cloud speech services
-- [ ] **Plugin System**: Extensible architecture for add-ons
+### Pull Request Guidelines
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature-name`
+3. Make your changes and test thoroughly
+4. Commit with descriptive messages
+5. Push to your fork and submit a pull request
 
 ## 📄 License
 
@@ -222,31 +214,39 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🙏 Acknowledgments
 
-- [Vosk](https://alphacephei.com/vosk/) - Open-source speech recognition toolkit
-- [SoundCard](https://github.com/bastibe/SoundCard) - Audio capture library
-- All contributors and users who help improve VoiceFlow
+- **[Vosk](https://alphacephei.com/vosk/)** - Offline speech recognition toolkit
+- **[CustomTkinter](https://github.com/TomSchimansky/CustomTkinter)** - Modern GUI framework
+- **[SoundCard](https://github.com/bastibe/SoundCard)** - Audio capture library
+- **Community Contributors** - Thanks to everyone who has contributed!
 
 ## 📞 Support
 
-Having issues? Here's how to get help:
+- 🌟 **Star this repo** if you find it helpful!
+- 🐛 **Report bugs** via [GitHub Issues](https://github.com/yourusername/livescript/issues)
+- 💬 **Discussions** for questions and feature requests
+- 📧 **Email**: your.email@example.com
+- 🔗 **LinkedIn**: [oscurprof](https://www.linkedin.com/in/oscurprof/)
 
-1. **Check the [Troubleshooting](#-troubleshooting) section**
-2. **Search existing [Issues](https://github.com/yourusername/voiceflow/issues)**
-3. **Create a new issue** with:
-   - Your operating system
-   - Python version
-   - Error messages
-   - Steps to reproduce
+## 🗺️ Roadmap
 
-## 🌟 Show Your Support
+### Planned Features
+- [ ] **Cloud Model Support** - Integration with online speech recognition APIs
+- [ ] **Multi-Speaker Recognition** - Distinguish between different speakers
+- [ ] **Export Functionality** - Save transcriptions to text files
+- [ ] **Hotkey Support** - Keyboard shortcuts for common actions
+- [ ] **Plugin System** - Support for custom extensions
+- [ ] **Mobile Companion** - Remote control via mobile app
 
-If VoiceFlow helps you, please consider:
-- ⭐ Starring the repository
-- 🐛 Reporting bugs
-- 💡 Suggesting features
-- 🔀 Contributing code
-- 📢 Sharing with others
+### Version History
+- **v1.01** - Initial release with core functionality
+- **v1.00** - Beta testing and development
 
 ---
 
+<div align="center">
+
 **Made with ❤️ for accessibility and inclusion**
+
+[⭐ Star](https://github.com/yourusername/livescript/stargazers) • [🍴 Fork](https://github.com/yourusername/livescript/fork) • [📞 Support](https://oscurprofundo.gumroad.com/l/dmkbes)
+
+</div>
