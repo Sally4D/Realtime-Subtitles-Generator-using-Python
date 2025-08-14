@@ -2,8 +2,6 @@
 
 A real-time audio transcription application that provides live captions for your system's audio output. Perfect for accessibility, language learning, meetings, or any situation where you need visual representation of spoken content.
 
-![LiveScript Demo](https://via.placeholder.com/800x400/2b2b2b/ffffff?text=LiveScript+Demo+Screenshot)
-
 ## ✨ Features
 
 ### 🎤 **Real-Time Transcription**
