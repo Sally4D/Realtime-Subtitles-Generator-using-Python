@@ -230,10 +230,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ### Planned Features
 - [ ] **Cloud Model Support** - Integration with online speech recognition APIs
 - [ ] **Multi-Speaker Recognition** - Distinguish between different speakers
+- [ ] **Live Captions Translation** - Translate live into any language
 - [ ] **Export Functionality** - Save transcriptions to text files
 - [ ] **Hotkey Support** - Keyboard shortcuts for common actions
-- [ ] **Plugin System** - Support for custom extensions
-- [ ] **Mobile Companion** - Remote control via mobile app
 
 ### Version History
 - **v1.01** - Initial release with core functionality
