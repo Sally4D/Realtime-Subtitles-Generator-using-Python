@@ -1,4 +1,4 @@
-# LiveScript 🎯
+# LiveScript: Real-time Live Captioning Software
 
 A real-time audio transcription application that provides live captions for your system's audio output. Perfect for accessibility, language learning, meetings, or any situation where you need visual representation of spoken content.
 
