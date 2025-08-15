@@ -74,7 +74,7 @@ python SubtitlesAppV1.01.py
 ```
 
 ### Method 2: Direct Download
-1. Download the latest release from [Releases](https://github.com/yourusername/livescript/releases)
+1. Download the latest release from [Releases](https://github.com/Sally4D/Realtime-Subtitles-Generator-using-Python/releases)
 2. Extract the archive
 3. Install dependencies: `pip install -r requirements.txt`
 4. Run: `python SubtitlesAppV1.01.py`
@@ -184,7 +184,7 @@ Settings are automatically saved to `settings.json`:
 We welcome contributions! Here's how you can help:
 
 ### Ways to Contribute
-- 🐛 **Bug Reports**: Report issues via [GitHub Issues](https://github.com/yourusername/livescript/issues)
+- 🐛 **Bug Reports**: Report issues via [GitHub Issues](https://github.com/Sally4D/Realtime-Subtitles-Generator-using-Python/issues)
 - 💡 **Feature Requests**: Suggest new features or improvements
 - 🌍 **Language Support**: Help test and improve language models
 - 📖 **Documentation**: Improve guides, README, or code comments
@@ -220,9 +220,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 - 🌟 **Star this repo** if you find it helpful!
-- 🐛 **Report bugs** via [GitHub Issues](https://github.com/yourusername/livescript/issues)
+- 🐛 **Report bugs** via [GitHub Issues]([https://github.com/sally4d/Realtime-Subtitles-Generator-using-Python
+/issues](https://github.com/Sally4D/Realtime-Subtitles-Generator-using-Python/issues))
 - 💬 **Discussions** for questions and feature requests
-- 📧 **Email**: your.email@example.com
+- 📧 **Email**: oscurprof@gmail.com
 - 🔗 **LinkedIn**: [oscurprof](https://www.linkedin.com/in/oscurprof/)
 
 ## 🗺️ Roadmap
@@ -244,6 +245,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 **Made with ❤️ for accessibility and inclusion**
 
-[⭐ Star](https://github.com/yourusername/livescript/stargazers) • [🍴 Fork](https://github.com/yourusername/livescript/fork) • [📞 Support](https://oscurprofundo.gumroad.com/l/dmkbes)
+[⭐ Star](https://github.com/Sally4D/Realtime-Subtitles-Generator-using-Python/stargazers) • [🍴 Fork](https://github.com/Sally4D/Realtime-Subtitles-Generator-using-Python/fork) • [📞 Support](https://oscurprofundo.gumroad.com/l/dmkbes)
 
 </div>
