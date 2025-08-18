@@ -63,7 +63,7 @@ requests>=2.25.0
 ### Method 1: Clone Repository
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/livescript.git
+git clone https://github.com/Sally4D/Realtime-Subtitles-Generator-using-Python.git
 cd livescript
 
 # Install dependencies
