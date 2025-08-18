@@ -1,0 +1,6 @@
+customtkinter>=5.0.0
+soundcard>=0.4.0
+vosk>=0.3.45
+numpy>=1.19.0
+requests>=2.25.0
+argostranslate>=1.9.0
