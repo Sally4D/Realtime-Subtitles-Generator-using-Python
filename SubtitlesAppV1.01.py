@@ -713,9 +713,11 @@ class SettingsWindow(ctk.CTkToplevel):
         zip_path = f"{model_name}.zip"
         self.download_cancelled = False
         start_time = time.time()
+        download_error = False
         
         try:
             self.model_status_label.configure(text=f"Connecting to download server...", text_color="orange")
+            self.download_progress.set(0)  # Initialize progress bar
             self.update_idletasks()
             
             with requests.get(url, stream=True) as r:
@@ -727,6 +729,10 @@ class SettingsWindow(ctk.CTkToplevel):
                 
                 # Format total size for display
                 total_size_mb = total_size / (1024 * 1024) if total_size > 0 else 0
+                
+                # Initial status update with total size
+                self.model_status_label.configure(text=f"Downloading {model_name}... 0.0 MB / {total_size_mb:.1f} MB (0.0%) - Initializing...", text_color="orange")
+                self.update_idletasks()
                 
                 with open(zip_path, 'wb') as f:
                     for chunk in r.iter_content(chunk_size=8192):
@@ -788,6 +794,7 @@ class SettingsWindow(ctk.CTkToplevel):
             self.show_restart_prompt()
             
         except Exception as e:
+            download_error = True
             error_msg = f"Error downloading model: {str(e)}"
             if "404" in str(e):
                 error_msg = f"Model '{model_name}' not found on server"
@@ -800,16 +807,16 @@ class SettingsWindow(ctk.CTkToplevel):
             if os.path.exists(zip_path):
                 os.remove(zip_path)
                 
-            # Add retry button for failed downloads
-            self.retry_download_btn.configure(command=lambda: self.download_and_extract_model(model_name))
-            self.retry_download_btn.grid(row=4, column=0, padx=10, pady=5, sticky="w")
-            
         finally:
             self.download_progress.grid_forget()
             self.cancel_download_btn.grid_forget()
-            self.retry_download_btn.grid_forget()
             self.language_menu.configure(state="normal")
             self.save_button.configure(state="normal")
+            
+            # Show retry button only if there was an error
+            if download_error and not self.download_cancelled:
+                self.retry_download_btn.configure(command=lambda: self.download_and_extract_model(model_name))
+                self.retry_download_btn.grid(row=4, column=0, padx=10, pady=5, sticky="w")
 
     def reset_defaults(self):
         if messagebox.askyesno("Reset Settings",
