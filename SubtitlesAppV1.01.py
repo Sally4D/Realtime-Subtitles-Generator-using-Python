@@ -387,6 +387,7 @@ class SettingsWindow(ctk.CTkToplevel):
         self.initial_appearance_mode = self.settings['appearance_mode']
 
         self.language_models = LANGUAGE_MODELS
+        self.download_cancelled = False
 
         self.setup_ui()
         self.load_settings_to_ui()
@@ -537,6 +538,16 @@ class SettingsWindow(ctk.CTkToplevel):
 
         self.download_progress = ctk.CTkProgressBar(audio_frame, orientation="horizontal", mode="determinate")
         self.download_progress.set(0)
+        
+        # Cancel download button (initially hidden)
+        self.cancel_download_btn = ctk.CTkButton(audio_frame, text="Cancel", 
+                                                command=self.cancel_download, fg_color="#c76b29",
+                                                hover_color="#a15621", width=80)
+        
+        # Retry download button (initially hidden)
+        self.retry_download_btn = ctk.CTkButton(audio_frame, text="Retry Download", 
+                                               command=None, fg_color="#2980b9",
+                                               hover_color="#1f5582", width=120)
 
         block_size_label_widget = ctk.CTkLabel(audio_frame, text="Block Size:")
         block_size_label_widget.grid(row=4, column=0, padx=10, pady=5, sticky="w")
@@ -680,41 +691,123 @@ class SettingsWindow(ctk.CTkToplevel):
         if not model_name:
             self.model_status_label.configure(text="Invalid model name.", text_color="red")
             return
+        # Hide retry button if it's visible
+        self.retry_download_btn.grid_forget()
         download_thread = threading.Thread(target=self._download_worker, args=(model_name,), daemon=True)
         download_thread.start()
+        
+    def cancel_download(self):
+        """Cancel the current download operation"""
+        self.download_cancelled = True
+        self.model_status_label.configure(text="Cancelling download...", text_color="orange")
 
     def _download_worker(self, model_name):
         self.language_menu.configure(state="disabled")
         self.save_button.configure(state="disabled")
-        self.download_progress.grid(row=3, column=0, columnspan=3, padx=10, pady=5, sticky="ew")
+        
+        # Show progress bar and cancel button
+        self.download_progress.grid(row=3, column=0, columnspan=2, padx=10, pady=5, sticky="ew")
+        self.cancel_download_btn.grid(row=3, column=2, padx=5, pady=5, sticky="w")
+        
         url = f"https://alphacephei.com/vosk/models/{model_name}.zip"
         zip_path = f"{model_name}.zip"
+        self.download_cancelled = False
+        start_time = time.time()
+        
         try:
-            self.model_status_label.configure(text=f"Downloading {model_name}...")
+            self.model_status_label.configure(text=f"Connecting to download server...", text_color="orange")
+            self.update_idletasks()
+            
             with requests.get(url, stream=True) as r:
                 r.raise_for_status()
                 total_size = int(r.headers.get('content-length', 0))
                 bytes_downloaded = 0
+                last_time = time.time()
+                last_bytes = 0
+                
+                # Format total size for display
+                total_size_mb = total_size / (1024 * 1024) if total_size > 0 else 0
+                
                 with open(zip_path, 'wb') as f:
                     for chunk in r.iter_content(chunk_size=8192):
+                        if self.download_cancelled:
+                            break
+                            
                         f.write(chunk)
                         bytes_downloaded += len(chunk)
+                        current_time = time.time()
+                        
+                        # Calculate progress
                         progress = bytes_downloaded / total_size if total_size > 0 else 0
                         self.download_progress.set(progress)
+                        
+                        # Calculate speed and ETA every 0.5 seconds
+                        if current_time - last_time >= 0.5:
+                            elapsed_time = current_time - last_time
+                            bytes_this_interval = bytes_downloaded - last_bytes
+                            speed_bps = bytes_this_interval / elapsed_time if elapsed_time > 0 else 0
+                            speed_mb = speed_bps / (1024 * 1024)
+                            
+                            # Calculate ETA
+                            if speed_bps > 0 and total_size > 0:
+                                remaining_bytes = total_size - bytes_downloaded
+                                eta_seconds = remaining_bytes / speed_bps
+                                eta_minutes = int(eta_seconds // 60)
+                                eta_seconds = int(eta_seconds % 60)
+                                eta_str = f"{eta_minutes}m {eta_seconds}s" if eta_minutes > 0 else f"{eta_seconds}s"
+                            else:
+                                eta_str = "calculating..."
+                            
+                            # Format current size for display
+                            current_size_mb = bytes_downloaded / (1024 * 1024)
+                            
+                            # Update status with detailed information
+                            status_text = f"Downloading {model_name}... {current_size_mb:.1f} MB / {total_size_mb:.1f} MB ({progress*100:.1f}%) - {speed_mb:.1f} MB/s - ETA: {eta_str}"
+                            self.model_status_label.configure(text=status_text, text_color="orange")
+                            
+                            last_time = current_time
+                            last_bytes = bytes_downloaded
+                            
                         self.update_idletasks()
-            self.model_status_label.configure(text=f"Extracting {model_name}...")
+                        
+            if self.download_cancelled:
+                self.model_status_label.configure(text=f"Download cancelled", text_color="red")
+                if os.path.exists(zip_path):
+                    os.remove(zip_path)
+                return
+                
+            self.model_status_label.configure(text=f"Extracting {model_name}...", text_color="orange")
             self.update_idletasks()
             with zipfile.ZipFile(zip_path, 'r') as zip_ref:
                 zip_ref.extractall()
             os.remove(zip_path)
-            self.model_status_label.configure(text=f"Model '{model_name}' installed successfully.", text_color="green")
+            
+            total_time = time.time() - start_time
+            total_time_str = f"{int(total_time // 60)}m {int(total_time % 60)}s" if total_time >= 60 else f"{int(total_time)}s"
+            self.model_status_label.configure(text=f"Model '{model_name}' installed successfully in {total_time_str}", text_color="green")
             self.show_restart_prompt()
+            
         except Exception as e:
-            self.model_status_label.configure(text=f"Error downloading model: {e}", text_color="red")
+            error_msg = f"Error downloading model: {str(e)}"
+            if "404" in str(e):
+                error_msg = f"Model '{model_name}' not found on server"
+            elif "timeout" in str(e).lower():
+                error_msg = f"Download timeout - please check your internet connection"
+            elif "connection" in str(e).lower():
+                error_msg = f"Connection error - please check your internet connection"
+                
+            self.model_status_label.configure(text=error_msg, text_color="red")
             if os.path.exists(zip_path):
                 os.remove(zip_path)
+                
+            # Add retry button for failed downloads
+            self.retry_download_btn.configure(command=lambda: self.download_and_extract_model(model_name))
+            self.retry_download_btn.grid(row=4, column=0, padx=10, pady=5, sticky="w")
+            
         finally:
             self.download_progress.grid_forget()
+            self.cancel_download_btn.grid_forget()
+            self.retry_download_btn.grid_forget()
             self.language_menu.configure(state="normal")
             self.save_button.configure(state="normal")
 
